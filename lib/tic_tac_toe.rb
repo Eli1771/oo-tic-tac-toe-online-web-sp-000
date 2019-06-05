@@ -64,16 +64,32 @@ class TicTacToe
   end
   def full? 
     @board.all? {|b| b == "X" || b == "O"}
+    WIN_COMBINATIONS.each do |combination|
+      tokens = []
+      combination.each do |space|
+        tokens << @board[space]
+      end 
+      if tokens[0] != " " && tokens[0] == tokens[1] && tokens[0] == tokens[2]
+        won_or_not = combination
+      end 
+    end 
+    won_or_not
+  end
+  def full? 
+    turn_count == 9
   end 
   def draw? 
     full? && !won?
   end 
   def over? 
     won? || full? || draw?
+    won? || full?
   end 
- def winner
+  def winner
     if combo = won?
       @board[combo[0]]
+    else 
+      nil 
     end 
   end
   def play
@@ -85,5 +101,11 @@ class TicTacToe
     elsif draw?
       puts "Cat's Game!"   
     end
+      puts "Please enter 1-9:"
+      turn 
+      if draw? 
+        puts "Cat's game!"
+      end 
+    end 
   end 
-end 
+end
